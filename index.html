@@ -1,0 +1,1960 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#071b2a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Football Academy">
+    <title>FOOTBALL ACADEMY 2D</title>
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" href="icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icon.svg">
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap');
+
+        :root {
+            --navy: #071b2a;
+            --panel: #102b3c;
+            --lime: #c8f169;
+            --white: #f5f8f2;
+            --muted: #a9bac0;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: radial-gradient(ellipse at 50% -20%, #1b5260 0, #071b2a 60%);
+            color: var(--white);
+            font-family: Inter, Arial, sans-serif;
+            min-height: 100vh;
+        }
+
+        button {
+            font: inherit;
+            cursor: pointer;
+            border: 0;
+        }
+
+        .shell {
+            max-width: 1120px;
+            margin: auto;
+            padding: 24px 18px 40px;
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .crest {
+            width: 44px;
+            height: 48px;
+            display: grid;
+            place-items: center;
+            background: var(--lime);
+            color: #102333;
+            clip-path: polygon(8% 0, 92% 0, 85% 78%, 50% 100%, 15% 78%);
+            font-size: 23px;
+        }
+
+        .brand small {
+            display: block;
+            color: var(--lime);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+
+        .brand strong {
+            font-size: 25px;
+            font-weight: 900;
+        }
+
+        .pill {
+            border: 1px solid #315264;
+            background: #0c2636;
+            color: #d8e4df;
+            border-radius: 30px;
+            padding: 9px 13px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .install-btn {
+            display: none;
+            align-items: center;
+            gap: 7px;
+            background: var(--lime);
+            color: #102333;
+            border-radius: 30px;
+            padding: 9px 13px;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .install-btn.visible {
+            display: inline-flex;
+        }
+
+        .panel {
+            background: linear-gradient(145deg, #15384a, #0a2231);
+            border: 1px solid #315264;
+            border-radius: 22px;
+            box-shadow: 0 20px 60px #0005;
+            overflow: hidden;
+        }
+
+        .screen {
+            display: none;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        .hero {
+            padding: 45px;
+            display: grid;
+            grid-template-columns: 1.05fr .95fr;
+            gap: 20px;
+            align-items: center;
+            min-height: 450px;
+        }
+
+        .eyebrow {
+            color: var(--lime);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            font-size: clamp(44px, 7vw, 76px);
+            line-height: .92;
+            margin: 14px 0 18px;
+            font-weight: 900;
+        }
+
+        h1 span {
+            color: var(--lime);
+        }
+
+        .lead {
+            color: #c2d0d1;
+            line-height: 1.7;
+            max-width: 470px;
+            font-size: 14px;
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 26px;
+        }
+
+        .btn {
+            padding: 13px 20px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 13px;
+            transition: .2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .primary {
+            background: var(--lime);
+            color: #102333;
+        }
+
+        .secondary {
+            background: #244658;
+            color: white;
+            border: 1px solid #456779;
+        }
+
+        .visual {
+            position: relative;
+            min-height: 300px;
+            display: grid;
+            place-items: center;
+        }
+
+        .ball-art {
+            width: 240px;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 25%, #fff, #a8b5b1);
+            box-shadow: 0 25px 50px #0008;
+            display: grid;
+            place-items: center;
+            font-size: 100px;
+            transform: rotate(-18deg);
+        }
+
+        .feature-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .feature {
+            padding: 17px;
+            background: #0d2939;
+            border: 1px solid #274b5d;
+            border-radius: 15px;
+        }
+
+        .feature b {
+            display: block;
+            font-size: 22px;
+            color: var(--lime);
+            margin-bottom: 3px;
+        }
+
+        .feature small {
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .game-head {
+            padding: 20px 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid #315264;
+        }
+
+        .game-head h2 {
+            font-size: 26px;
+            margin: 0;
+        }
+
+        .stats {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            background: #092333;
+            border: 1px solid #315264;
+            border-radius: 10px;
+            padding: 8px 12px;
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        .stat b {
+            color: var(--lime);
+            font-size: 15px;
+            margin-left: 5px;
+        }
+
+        .game-content {
+            padding: 18px;
+        }
+
+        .canvas-wrap {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid #6b9872;
+            background: #277b4c;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: auto;
+            touch-action: manipulation;
+        }
+
+        .hud {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin: 14px 0;
+            color: #c4d4d3;
+            font-size: 12px;
+            flex-wrap: wrap;
+        }
+
+        .aims {
+            display: flex;
+            gap: 8px;
+        }
+
+        .aim {
+            padding: 9px 14px;
+            border-radius: 9px;
+            background: #183e50;
+            color: #d9e4df;
+            border: 1px solid #426476;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .aim.selected {
+            background: var(--lime);
+            color: #102333;
+        }
+
+        .kick {
+            background: var(--lime);
+            color: #102333;
+            font-weight: 900;
+            padding: 13px 24px;
+            border-radius: 11px;
+            min-width: 150px;
+        }
+
+        .kick:disabled {
+            opacity: .5;
+            cursor: not-allowed;
+        }
+
+        .note {
+            font-size: 11px;
+            color: #9fb3b7;
+            line-height: 1.5;
+        }
+
+        .quiz-wrap {
+            padding: 35px;
+            max-width: 760px;
+            margin: auto;
+        }
+
+        .progress {
+            height: 7px;
+            background: #092333;
+            border-radius: 9px;
+            overflow: hidden;
+            margin: 15px 0 26px;
+        }
+
+        .progress span {
+            display: block;
+            height: 100%;
+            background: var(--lime);
+            width: 0;
+            transition: .3s;
+        }
+
+        .question {
+            font-size: 30px;
+            font-weight: 700;
+            margin: 16px 0 20px;
+        }
+
+        .answers {
+            display: grid;
+            gap: 10px;
+        }
+
+        .answer {
+            padding: 15px 16px;
+            border-radius: 12px;
+            background: #0b2939;
+            color: #e8efea;
+            text-align: left;
+            border: 1px solid #345669;
+            font-weight: 600;
+        }
+
+        .answer:hover {
+            border-color: var(--lime);
+        }
+
+        .answer.correct {
+            background: #244c37;
+            border-color: #8fd58d;
+        }
+
+        .answer.wrong {
+            background: #5b3035;
+            border-color: #e48d8d;
+        }
+
+        .result {
+            padding: 40px;
+            text-align: center;
+        }
+
+        .score-big {
+            font-size: 72px;
+            font-weight: 900;
+            color: var(--lime);
+            margin: 12px;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 24px 0;
+        }
+
+        .result-box {
+            background: #0b2939;
+            border: 1px solid #315264;
+            border-radius: 13px;
+            padding: 15px;
+        }
+
+        .result-box b {
+            display: block;
+            font-size: 26px;
+            color: var(--lime);
+        }
+
+        .result-box small {
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        .footer {
+            color: #75919c;
+            font-size: 10px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .toast {
+            position: absolute;
+            left: 50%;
+            top: 14px;
+            transform: translateX(-50%);
+            background: #071b2aee;
+            border: 1px solid var(--lime);
+            border-radius: 30px;
+            padding: 9px 15px;
+            font-size: 12px;
+            font-weight: 800;
+            opacity: 0;
+            transition: .25s;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        .toast.show {
+            opacity: 1;
+        }
+
+        @media(max-width:700px) {
+            .shell {
+                padding: 14px 10px 24px;
+            }
+
+            .topbar {
+                margin-bottom: 12px;
+            }
+
+            .brand {
+                gap: 8px;
+            }
+
+            .crest {
+                width: 36px;
+                height: 40px;
+                font-size: 19px;
+            }
+
+            .brand small {
+                font-size: 8px;
+                letter-spacing: 1.2px;
+            }
+
+            .brand strong {
+                font-size: clamp(16px, 5vw, 21px);
+            }
+
+            .pill {
+                display: none;
+            }
+
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+                padding: 24px 18px 18px;
+                min-height: auto;
+                gap: 6px;
+            }
+
+            h1 {
+                font-size: clamp(38px, 14vw, 58px);
+                margin: 12px 0 14px;
+            }
+
+            .lead {
+                margin: auto;
+                font-size: 13px;
+            }
+
+            .actions {
+                justify-content: center;
+            }
+
+            .visual {
+                min-height: 210px;
+            }
+
+            .ball-art {
+                width: 180px;
+                font-size: 70px;
+            }
+
+            .feature-row {
+                grid-template-columns: 1fr;
+                padding: 0;
+            }
+
+            .feature {
+                padding: 14px;
+            }
+
+            .game-head {
+                align-items: flex-start;
+                flex-direction: column;
+                padding: 16px 14px;
+            }
+
+            .game-head h2 {
+                font-size: 20px;
+            }
+
+            .stats {
+                width: 100%;
+            }
+
+            .stat {
+                flex: 1;
+                min-width: 80px;
+            }
+
+            .game-content {
+                padding: 10px;
+            }
+
+            .hud {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            #instruction {
+                text-align: center;
+            }
+
+            .aims {
+                width: 100%;
+            }
+
+            .aim {
+                flex: 1;
+                min-height: 42px;
+            }
+
+            .game-actions {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+
+            .kick {
+                width: 100%;
+            }
+
+            .quiz-wrap {
+                padding: 24px 16px;
+            }
+
+            .quiz-wrap h2 {
+                font-size: 28px;
+            }
+
+            .question {
+                font-size: clamp(20px, 6vw, 26px);
+            }
+
+            .answer {
+                min-height: 54px;
+            }
+
+            .result {
+                padding: 26px 16px;
+            }
+
+            .score-big {
+                font-size: 58px;
+            }
+
+            .result-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media(max-width:420px) {
+            .hero {
+                padding-inline: 14px;
+            }
+
+            .actions {
+                display: grid;
+                grid-template-columns: 1fr;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .feature-row {
+                margin-top: 12px;
+            }
+
+            .stat {
+                text-align: center;
+            }
+
+            .stat b {
+                display: block;
+                margin: 4px 0 0;
+            }
+
+            .toast {
+                max-width: calc(100% - 20px);
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="shell">
+
+        <header class="topbar">
+            <div class="brand">
+                <div class="crest">⚽</div>
+                <div>
+                    <small>INTERACTIVE SPORTS LEARNING</small>
+                    <strong>FOOTBALL ACADEMY 2D</strong>
+                </div>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px">
+                <button id="installApp" class="install-btn" type="button">⬇ PASANG APLIKASI</button>
+                <div class="pill">EDISI PEMBELAJARAN • 2D</div>
+            </div>
+        </header>
+
+        <!-- MENU UTAMA -->
+        <section id="home" class="screen active panel">
+
+            <div class="hero">
+                <div data-reveal>
+                    <div class="eyebrow">Train • Play • Learn</div>
+
+                    <h1>
+                        JADILAH<br>
+                        <span>JUARA</span><br>
+                        DI LAPANGAN.
+                    </h1>
+
+                    <p class="lead">
+                        Latih ketepatan tendangan penalti, hadapi penjaga gawang,
+                        lalu uji pengetahuan sepak bola melalui kuis interaktif.
+                    </p>
+
+                    <div class="actions">
+                        <button class="btn primary" onclick="startGame()">
+                            MULAI BERMAIN
+                        </button>
+
+                        <button class="btn secondary" onclick="showHow()">
+                            CARA BERMAIN
+                        </button>
+                    </div>
+                </div>
+
+                <div class="visual" data-reveal>
+                    <div class="ball-art">⚽</div>
+                </div>
+            </div>
+
+            <div style="padding:0 24px 24px" data-reveal>
+                <div class="feature-row">
+
+                    <div class="feature">
+                        <b>05</b>
+                        <small>Kesempatan tendangan penalti</small>
+                    </div>
+
+                    <div class="feature">
+                        <b>05</b>
+                        <small>Pertanyaan kuis sepak bola</small>
+                    </div>
+
+                    <div class="feature">
+                        <b>2D</b>
+                        <small>Simulasi berbasis Canvas</small>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- CARA BERMAIN -->
+        <section id="how" class="screen panel">
+
+            <div class="quiz-wrap">
+
+                <div class="eyebrow">Panduan permainan</div>
+
+                <h2>CARA BERMAIN</h2>
+
+                <p class="lead">
+                    Selesaikan dua tahap untuk mendapatkan nilai akhir.
+                </p>
+
+                <div class="feature-row" style="grid-template-columns:1fr 1fr">
+
+                    <div class="feature">
+                        <b>01 / LATIHAN</b>
+                        <small>
+                            Pilih arah tendangan kiri, tengah, atau kanan.
+                            Tekan tombol TENDANG. Penjaga gawang akan bergerak
+                            dan mencoba menepis bola.
+                        </small>
+                    </div>
+
+                    <div class="feature">
+                        <b>02 / KUIS</b>
+                        <small>
+                            Jawab lima pertanyaan seputar teknik dasar
+                            dan peraturan sepak bola.
+                        </small>
+                    </div>
+
+                </div>
+
+                <p class="note" style="margin-top:18px">
+                    Kontrol: gunakan tombol arah di layar.
+                    Di komputer, tombol panah juga dapat digunakan.
+                    Tekan Spasi untuk menendang.
+                </p>
+
+                <div class="actions">
+                    <button class="btn primary" onclick="startGame()">
+                        MULAI BERMAIN
+                    </button>
+
+                    <button class="btn secondary" onclick="showScreen('home')">
+                        KEMBALI
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- LATIHAN PENALTI -->
+        <section id="practice" class="screen panel">
+
+            <div class="game-head">
+
+                <h2>01 — LATIHAN PENALTI</h2>
+
+                <div class="stats">
+                    <div class="stat">
+                        TENDANGAN <b id="shots">0/5</b>
+                    </div>
+
+                    <div class="stat">
+                        GOL <b id="goals">0</b>
+                    </div>
+
+                    <div class="stat">
+                        SKOR <b id="practiceScore">0</b>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="game-content">
+
+                <div class="canvas-wrap">
+
+                    <canvas id="pitch" width="900" height="510"></canvas>
+
+                    <div id="toast" class="toast">
+                        GOOOL!
+                    </div>
+
+                </div>
+
+                <div class="hud">
+
+                    <span id="instruction">
+                        Pilih arah tendangan, lalu tekan TENDANG.
+                    </span>
+
+                    <div class="aims">
+
+                        <button class="aim" data-aim="0">KIRI</button>
+                        <button class="aim selected" data-aim="1">TENGAH</button>
+                        <button class="aim" data-aim="2">KANAN</button>
+
+                    </div>
+
+                </div>
+
+                <div class="game-actions">
+
+                    <button id="kickBtn" class="kick" onclick="kickBall()">
+                        ⚽ TENDANG
+                    </button>
+
+                    <button class="btn secondary" onclick="toggleSound()" id="soundBtn">
+                        🔊 SUARA ON
+                    </button>
+
+                </div>
+
+                <p class="note">
+                    Simulasi edukatif: hasil tendangan ditentukan oleh arah
+                    pilihan dan respons penjaga gawang. Ini bukan alat ukur
+                    kemampuan motorik nyata.
+                </p>
+
+            </div>
+        </section>
+
+        <!-- KUIS -->
+        <section id="quiz" class="screen panel">
+
+            <div class="quiz-wrap">
+
+                <div class="eyebrow">02 — Uji pengetahuan</div>
+
+                <h2>FOOTBALL QUIZ</h2>
+
+                <div class="hud">
+                    <span id="qCount">PERTANYAAN 1 DARI 5</span>
+                    <span id="qScore">SKOR: 0</span>
+                </div>
+
+                <div class="progress">
+                    <span id="progress"></span>
+                </div>
+
+                <div id="question" class="question"></div>
+
+                <div id="answers" class="answers"></div>
+
+                <p id="feedback" class="note"></p>
+
+            </div>
+        </section>
+
+        <!-- HASIL -->
+        <section id="result" class="screen panel">
+
+            <div class="result">
+
+                <div class="eyebrow">Hasil akhir</div>
+
+                <h2>PERTANDINGAN SELESAI</h2>
+
+                <div class="score-big" id="finalScore">0</div>
+
+                <p class="lead">
+                    Skor akhir kamu di Football Academy 2D.
+                </p>
+
+                <div class="result-grid">
+
+                    <div class="result-box">
+                        <b id="rGoals">0/5</b>
+                        <small>GOL TERCETAK</small>
+                    </div>
+
+                    <div class="result-box">
+                        <b id="rQuiz">0/5</b>
+                        <small>JAWABAN BENAR</small>
+                    </div>
+
+                    <div class="result-box">
+                        <b id="rGrade">-</b>
+                        <small>PREDIKAT</small>
+                    </div>
+
+                </div>
+
+                <div class="actions" style="justify-content:center">
+
+                    <button class="btn primary" onclick="startGame()">
+                        MAIN LAGI
+                    </button>
+
+                    <button class="btn secondary" onclick="showScreen('home')">
+                        MENU UTAMA
+                    </button>
+
+                </div>
+
+            </div>
+        </section>
+
+        <div class="footer">
+            FOOTBALL ACADEMY 2D • MEDIA PEMBELAJARAN PENJAS
+        </div>
+
+    </div>
+
+    <script>
+
+        // ===============================
+        // VARIABEL UTAMA
+        // ===============================
+
+        const $ = id => document.getElementById(id);
+
+        const canvas = $('pitch');
+        const ctx = canvas.getContext('2d');
+
+        let aim = 1;
+        let shots = 0;
+        let goals = 0;
+        let quizScore = 0;
+        let qIndex = 0;
+        let busy = false;
+        let soundOn = true;
+        let activeQuestions = [];
+
+        let keeperX = 450;
+        let ball = { x: 450, y: 420 };
+
+
+        // ===============================
+        // DATA KUIS
+        // ===============================
+
+        const questions = [
+
+            {
+                q: 'Teknik membawa bola sambil bergerak dan tetap menguasainya disebut ...',
+                a: ['Shooting', 'Dribbling', 'Heading', 'Throw-in'],
+                c: 1,
+                e: 'Dribbling adalah teknik menggiring bola dengan sentuhan kaki.'
+            },
+
+            {
+                q: 'Bagian kaki yang umum digunakan untuk melakukan operan pendek yang akurat adalah ...',
+                a: ['Kaki bagian dalam', 'Tumit', 'Ujung lutut', 'Telapak tangan'],
+                c: 0,
+                e: 'Kaki bagian dalam memberi bidang sentuh yang relatif lebar untuk operan pendek.'
+            },
+
+            {
+                q: 'Berapa jumlah pemain dari satu tim yang berada di lapangan pada awal pertandingan sepak bola?',
+                a: ['7 pemain', '9 pemain', '11 pemain', '12 pemain'],
+                c: 2,
+                e: 'Satu tim memainkan 11 pemain, termasuk seorang penjaga gawang.'
+            },
+
+            {
+                q: 'Tugas utama penjaga gawang adalah ...',
+                a: [
+                    'Memimpin wasit',
+                    'Menjaga gawang agar tidak kemasukan gol',
+                    'Melakukan semua lemparan ke dalam',
+                    'Menentukan waktu pertandingan'
+                ],
+                c: 1,
+                e: 'Penjaga gawang bertugas melindungi gawang dan mencegah bola masuk.'
+            },
+
+            {
+                q: 'Lemparan ke dalam diberikan ketika ...',
+                a: [
+                    'Bola melewati garis samping',
+                    'Bola masuk ke gawang',
+                    'Pemain melakukan tendangan sudut',
+                    'Wasit meniup peluit akhir'
+                ],
+                c: 0,
+                e: 'Lemparan ke dalam diberikan ketika bola keluar melewati garis samping.'
+            },
+
+            {
+                q: 'Tendangan yang dilakukan dari titik penalti berjarak sekitar ... dari gawang.',
+                a: ['11 meter', '9 meter', '14 meter', '20 meter'],
+                c: 0,
+                e: 'Titik penalti berjarak sekitar 11 meter dari garis gawang.'
+            },
+
+            {
+                q: 'Dalam sepak bola, kartu merah diberikan untuk pelanggaran yang ...',
+                a: [
+                    'Cukup ringan',
+                    'Berat atau berbahaya',
+                    'Dilakukan saat pergantian pemain',
+                    'Dilakukan di luar lapangan'
+                ],
+                c: 1,
+                e: 'Kartu merah berarti pemain harus meninggalkan lapangan.'
+            },
+
+            {
+                q: 'Berapa lama satu babak pertandingan sepak bola dewasa pada umumnya?',
+                a: ['30 menit', '45 menit', '60 menit', '90 menit'],
+                c: 1,
+                e: 'Pertandingan sepak bola dewasa umumnya terdiri atas dua babak masing-masing 45 menit.'
+            },
+
+            {
+                q: 'Tendangan sudut dilakukan dari ...',
+                a: [
+                    'Titik tengah lapangan',
+                    'Garis samping lapangan',
+                    'Sudut lapangan',
+                    'Garis gawang lawan'
+                ],
+                c: 2,
+                e: 'Tendangan sudut dilakukan di salah satu sudut lapangan.'
+            },
+
+            {
+                q: 'Bagian tubuh yang tidak boleh digunakan untuk mengontrol bola oleh pemain selain penjaga gawang adalah ...',
+                a: ['Kaki', 'Dada', 'Paha', 'Tangan'],
+                c: 3,
+                e: 'Pemain tidak boleh menyentuh bola dengan tangan, kecuali penjaga gawang di area gawang.'
+            },
+
+            {
+                q: 'Tujuan utama dari teknik passing adalah ...',
+                a: [
+                    'Mencetak gol langsung',
+                    'Mengoper bola kepada rekan',
+                    'Mengganti seragam',
+                    'Mengulur waktu hukuman'
+                ],
+                c: 1,
+                e: 'Passing atau operan digunakan untuk mengirimkan bola kepada rekan satu tim.'
+            },
+
+            {
+                q: 'Wasit menggunakan peluit untuk ...',
+                a: [
+                    'Memulai atau menghentikan permainan',
+                    'Menghitung jumlah penonton',
+                    'Mengganti lapangan',
+                    'Menentukan warna seragam'
+                ],
+                c: 0,
+                e: 'Peluit wasit digunakan untuk mengendalikan jalannya pertandingan.'
+            }
+
+        ];
+
+
+        // ===============================
+        // NAVIGASI HALAMAN
+        // ===============================
+
+        function showScreen(id) {
+
+            document.querySelectorAll('.screen').forEach(s => {
+                s.classList.remove('active');
+            });
+
+            $(id).classList.add('active');
+            animateScreen(id);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        }
+
+        function showHow() {
+            showScreen('how');
+        }
+
+
+        // ===============================
+        // ANIMASI GSAP SAAT SCROLL
+        // ===============================
+
+        function animateScreen(id) {
+
+            if (!window.gsap || !window.ScrollTrigger) return;
+
+            gsap.registerPlugin(ScrollTrigger);
+
+            const screen = $(id);
+            if (!screen) return;
+
+            const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            gsap.killTweensOf(screen);
+
+            if (reduceMotion) {
+                gsap.set(screen, { opacity: 1, y: 0, clearProps: 'transform' });
+                ScrollTrigger.refresh();
+                return;
+            }
+
+            gsap.fromTo(
+                screen,
+                { opacity: 0, y: 28 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: .55,
+                    ease: 'power3.out',
+                    overwrite: true
+                }
+            );
+
+            const revealTargets = screen.querySelectorAll(
+                '[data-reveal], .feature, .aim, .game-actions, .result-box'
+            );
+
+            gsap.from(revealTargets, {
+                opacity: 0,
+                y: 35,
+                duration: .65,
+                stagger: .08,
+                ease: 'power3.out',
+                overwrite: true,
+                scrollTrigger: {
+                    trigger: screen,
+                    start: 'top 82%',
+                    once: true
+                }
+            });
+
+            if (id === 'home') {
+                gsap.fromTo(
+                    screen.querySelector('.ball-art'),
+                    { y: 0, rotation: -18 },
+                    {
+                        y: -24,
+                        rotation: 18,
+                        ease: 'none',
+                        scrollTrigger: {
+                            trigger: screen,
+                            start: 'top bottom',
+                            end: 'bottom top',
+                            scrub: 1
+                        }
+                    }
+                );
+            }
+
+            ScrollTrigger.refresh();
+
+        }
+
+
+        // ===============================
+        // MULAI GAME
+        // ===============================
+
+        function startGame() {
+
+            shots = 0;
+            goals = 0;
+            quizScore = 0;
+            qIndex = 0;
+            busy = false;
+            aim = 1;
+
+            updateHUD();
+            selectAim(1);
+
+            keeperX = 450;
+            ball = { x: 450, y: 420 };
+
+            drawPitch();
+
+            showScreen('practice');
+
+        }
+
+
+        // ===============================
+        // UPDATE SKOR
+        // ===============================
+
+        function updateHUD() {
+
+            $('shots').textContent = shots + '/5';
+            $('goals').textContent = goals;
+            $('practiceScore').textContent = goals * 20;
+
+        }
+
+
+        // ===============================
+        // PILIH ARAH
+        // ===============================
+
+        function selectAim(n) {
+
+            aim = n;
+
+            document.querySelectorAll('.aim').forEach(b => {
+                b.classList.toggle(
+                    'selected',
+                    Number(b.dataset.aim) === n
+                );
+            });
+
+        }
+
+        document.querySelectorAll('.aim').forEach(b => {
+
+            b.addEventListener('click', () => {
+                selectAim(Number(b.dataset.aim));
+            });
+
+        });
+
+
+        // ===============================
+        // FUNGSI GAMBAR
+        // ===============================
+
+        function rounded(x, y, w, h, r, color) {
+
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.roundRect(x, y, w, h, r);
+            ctx.fill();
+
+        }
+
+
+        // ===============================
+        // GAMBAR LAPANGAN
+        // ===============================
+
+        function drawPitch() {
+
+            const w = 900;
+            const h = 510;
+
+            ctx.clearRect(0, 0, w, h);
+
+            let g = ctx.createLinearGradient(0, 0, 0, h);
+
+            g.addColorStop(0, '#278451');
+            g.addColorStop(1, '#17643e');
+
+            ctx.fillStyle = g;
+            ctx.fillRect(0, 0, w, h);
+
+            // Pola rumput
+            for (let i = 0; i < 10; i++) {
+
+                ctx.fillStyle = i % 2 ? '#ffffff08' : '#052f1a0b';
+                ctx.fillRect(i * 90, 0, 90, h);
+
+            }
+
+            // Garis lapangan
+            ctx.strokeStyle = '#e8f5e8cc';
+            ctx.lineWidth = 4;
+
+            ctx.strokeRect(18, 18, 864, 474);
+            ctx.strokeRect(245, 18, 410, 135);
+            ctx.strokeRect(330, 18, 240, 65);
+
+            // Lingkaran penalti
+            ctx.beginPath();
+            ctx.arc(450, 153, 48, 0, Math.PI * 2);
+            ctx.stroke();
+
+            // Gawang
+            ctx.fillStyle = '#eaf2e9';
+            ctx.fillRect(345, 7, 210, 13);
+
+            ctx.fillStyle = '#d8e4db';
+            ctx.fillRect(345, 0, 8, 30);
+            ctx.fillRect(547, 0, 8, 30);
+
+            // Jaring gawang
+            ctx.strokeStyle = '#ffffff66';
+            ctx.lineWidth = 1;
+
+            for (let x = 355; x < 550; x += 18) {
+
+                ctx.beginPath();
+                ctx.moveTo(x, 2);
+                ctx.lineTo(x, 18);
+                ctx.stroke();
+
+            }
+
+            for (let y = 3; y < 18; y += 6) {
+
+                ctx.beginPath();
+                ctx.moveTo(345, y);
+                ctx.lineTo(555, y);
+                ctx.stroke();
+
+            }
+
+            // Pemain dan kiper
+            drawKeeper(keeperX, 62);
+            drawPlayer(450, 414);
+            drawBall(ball.x, ball.y, 13);
+
+            // Garis arah tendangan
+            if (!busy) {
+
+                ctx.setLineDash([8, 9]);
+                ctx.strokeStyle = '#e9f5d899';
+                ctx.lineWidth = 2;
+
+                ctx.beginPath();
+                ctx.moveTo(450, 398);
+                ctx.lineTo([390, 450, 510][aim], 70);
+                ctx.stroke();
+
+                ctx.setLineDash([]);
+
+            }
+
+        }
+
+
+        // ===============================
+        // GAMBAR KIPER
+        // ===============================
+
+        function drawKeeper(x, y) {
+
+            ctx.save();
+            ctx.translate(x, y);
+
+            // Bayangan
+            ctx.fillStyle = '#0004';
+            ctx.beginPath();
+            ctx.ellipse(0, 42, 42, 9, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Tangan
+            ctx.strokeStyle = '#f1c9a5';
+            ctx.lineWidth = 13;
+            ctx.lineCap = 'round';
+
+            ctx.beginPath();
+            ctx.moveTo(-12, 12);
+            ctx.lineTo(-38, 27);
+            ctx.moveTo(12, 12);
+            ctx.lineTo(38, 27);
+            ctx.stroke();
+
+            // Badan
+            rounded(-17, -4, 34, 43, 10, '#f5a623');
+
+            // Kaki
+            rounded(-13, 34, 10, 17, 4, '#172c3a');
+            rounded(3, 34, 10, 17, 4, '#172c3a');
+
+            // Kepala
+            ctx.fillStyle = '#dca982';
+            ctx.beginPath();
+            ctx.arc(0, -17, 15, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Rambut
+            ctx.fillStyle = '#273b47';
+            ctx.beginPath();
+            ctx.arc(0, -22, 15, Math.PI, Math.PI * 2);
+            ctx.fill();
+
+            // Mata
+            ctx.fillStyle = '#fff';
+            ctx.beginPath();
+            ctx.arc(-5, -17, 2, 0, Math.PI * 2);
+            ctx.arc(5, -17, 2, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.restore();
+
+        }
+
+
+        // ===============================
+        // GAMBAR PEMAIN
+        // ===============================
+
+        function drawPlayer(x, y) {
+
+            ctx.save();
+            ctx.translate(x, y);
+
+            // Bayangan
+            ctx.fillStyle = '#0004';
+            ctx.beginPath();
+            ctx.ellipse(0, 34, 30, 8, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Tangan
+            ctx.strokeStyle = '#d8a27e';
+            ctx.lineWidth = 10;
+            ctx.lineCap = 'round';
+
+            ctx.beginPath();
+            ctx.moveTo(-13, 3);
+            ctx.lineTo(-24, 23);
+            ctx.moveTo(13, 3);
+            ctx.lineTo(22, 21);
+            ctx.stroke();
+
+            // Badan
+            rounded(-16, -12, 32, 34, 8, '#e9f2ed');
+
+            ctx.fillStyle = '#c8f169';
+            ctx.fillRect(-16, 1, 32, 7);
+
+            // Kaki
+            ctx.strokeStyle = '#172d3a';
+            ctx.lineWidth = 9;
+
+            ctx.beginPath();
+            ctx.moveTo(-7, 19);
+            ctx.lineTo(-12, 33);
+            ctx.moveTo(7, 19);
+            ctx.lineTo(12, 33);
+            ctx.stroke();
+
+            // Kepala
+            ctx.fillStyle = '#dca982';
+            ctx.beginPath();
+            ctx.arc(0, -24, 14, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Rambut
+            ctx.fillStyle = '#172b37';
+            ctx.beginPath();
+            ctx.arc(0, -28, 14, Math.PI, Math.PI * 2);
+            ctx.fill();
+
+            ctx.restore();
+
+        }
+
+
+        // ===============================
+        // GAMBAR BOLA
+        // ===============================
+
+        function drawBall(x, y, r) {
+
+            ctx.save();
+
+            // Bayangan
+            ctx.fillStyle = '#0004';
+
+            ctx.beginPath();
+            ctx.ellipse(x + 3, y + r + 4, r * 1.1, 4, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Bola
+            ctx.fillStyle = '#f5f6ee';
+            ctx.strokeStyle = '#26343a';
+            ctx.lineWidth = 1.4;
+
+            ctx.beginPath();
+            ctx.arc(x, y, r, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+
+            // Pola bola
+            ctx.fillStyle = '#27343a';
+
+            ctx.beginPath();
+            ctx.arc(x, y, 4, 0, Math.PI * 2);
+            ctx.fill();
+
+            for (let a = 0; a < 5; a++) {
+
+                let ang = a * Math.PI * 2 / 5;
+
+                ctx.beginPath();
+
+                ctx.arc(
+                    x + Math.cos(ang) * 8,
+                    y + Math.sin(ang) * 8,
+                    2.8,
+                    0,
+                    Math.PI * 2
+                );
+
+                ctx.fill();
+
+            }
+
+            ctx.restore();
+
+        }
+
+
+        // ===============================
+        // EFEK SUARA
+        // ===============================
+
+        function tone(freq = 440, duration = .12, type = 'sine') {
+
+            if (!soundOn) return;
+
+            try {
+
+                let ac = new (window.AudioContext || window.webkitAudioContext)();
+
+                let o = ac.createOscillator();
+                let v = ac.createGain();
+
+                o.type = type;
+                o.frequency.value = freq;
+
+                v.gain.setValueAtTime(.07, ac.currentTime);
+
+                v.gain.exponentialRampToValueAtTime(
+                    .001,
+                    ac.currentTime + duration
+                );
+
+                o.connect(v);
+                v.connect(ac.destination);
+
+                o.start();
+                o.stop(ac.currentTime + duration);
+
+            } catch (e) { }
+
+        }
+
+        function toggleSound() {
+
+            soundOn = !soundOn;
+
+            $('soundBtn').textContent = soundOn
+                ? '🔊 SUARA ON'
+                : '🔇 SUARA OFF';
+
+            if (soundOn) tone(620, .1);
+
+        }
+
+
+        // ===============================
+        // TENDANG BOLA
+        // ===============================
+
+        function kickBall() {
+
+            if (busy || shots >= 5) return;
+
+            busy = true;
+            $('kickBtn').disabled = true;
+
+            shots++;
+            updateHUD();
+
+            let target = [365, 450, 535][aim];
+
+            let saved = Math.random() < 0.38;
+
+            let keeperDest;
+
+            if (saved) {
+                keeperDest = target;
+            } else {
+                keeperDest = target > 450 ? 365 : 535;
+            }
+
+            let start = performance.now();
+            let duration = 700;
+
+            function frame(now) {
+
+                let t = Math.min(1, (now - start) / duration);
+
+                let ease = 1 - Math.pow(1 - t, 3);
+
+                keeperX = 450 + (keeperDest - 450) * ease;
+
+                ball.x = 450 + (target - 450) * ease;
+                ball.y = 420 - 350 * ease;
+
+                drawPitch();
+
+                if (t < 1) {
+
+                    requestAnimationFrame(frame);
+
+                } else {
+
+                    if (saved) {
+
+                        toast('DITANGKAP KIPER!');
+                        tone(180, .25, 'triangle');
+
+                    } else {
+
+                        goals++;
+
+                        toast('GOOOL! +20 POIN');
+
+                        tone(680, .12);
+
+                        setTimeout(() => tone(880, .18), 100);
+
+                    }
+
+                    updateHUD();
+
+                    setTimeout(() => {
+
+                        keeperX = 450;
+                        ball = { x: 450, y: 420 };
+
+                        busy = false;
+                        $('kickBtn').disabled = false;
+
+                        drawPitch();
+
+                        if (shots >= 5) {
+
+                            $('instruction').textContent =
+                                'Latihan selesai! Lanjut ke kuis.';
+
+                            setTimeout(startQuiz, 900);
+
+                        } else {
+
+                            $('instruction').textContent =
+                                'Pilih arah berikutnya, lalu tendang.';
+
+                        }
+
+                    }, 750);
+
+                }
+
+            }
+
+            requestAnimationFrame(frame);
+
+        }
+
+
+        // ===============================
+        // NOTIFIKASI
+        // ===============================
+
+        function toast(msg) {
+
+            $('toast').textContent = msg;
+
+            $('toast').classList.add('show');
+
+            setTimeout(() => {
+                $('toast').classList.remove('show');
+            }, 850);
+
+        }
+
+
+        // ===============================
+        // MULAI KUIS
+        // ===============================
+
+        function startQuiz() {
+
+            qIndex = 0;
+            quizScore = 0;
+            activeQuestions = getRandomQuestions(5);
+
+            showScreen('quiz');
+
+            renderQuestion();
+
+        }
+
+
+        // ===============================
+        // TAMPILKAN PERTANYAAN
+        // ===============================
+
+        function shuffleItems(items) {
+
+            const shuffled = [...items];
+
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const randomIndex = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[randomIndex]] =
+                    [shuffled[randomIndex], shuffled[i]];
+            }
+
+            return shuffled;
+
+        }
+
+
+        function getRandomQuestions(count) {
+
+            return shuffleItems(questions).slice(0, count).map(question => {
+                const correctAnswer = question.a[question.c];
+                const shuffledAnswers = shuffleItems(question.a);
+
+                return {
+                    ...question,
+                    a: shuffledAnswers,
+                    c: shuffledAnswers.indexOf(correctAnswer)
+                };
+            });
+
+        }
+
+        function renderQuestion() {
+
+            const q = activeQuestions[qIndex];
+
+            $('qCount').textContent =
+                `PERTANYAAN ${qIndex + 1} DARI ${activeQuestions.length}`;
+
+            $('qScore').textContent = 'SKOR: ' + quizScore;
+
+            $('progress').style.width =
+                (qIndex / activeQuestions.length * 100) + '%';
+
+            $('question').textContent = q.q;
+
+            $('feedback').textContent = '';
+
+            const area = $('answers');
+
+            area.innerHTML = '';
+
+            q.a.forEach((a, i) => {
+
+                let b = document.createElement('button');
+
+                b.className = 'answer';
+
+                b.textContent = String.fromCharCode(65 + i) + '. ' + a;
+
+                b.onclick = () => answer(i, b);
+
+                area.appendChild(b);
+
+            });
+
+        }
+
+
+        // ===============================
+        // PERIKSA JAWABAN
+        // ===============================
+
+        function answer(i, btn) {
+
+            const q = activeQuestions[qIndex];
+
+            const buttons = [...$('answers').children];
+
+            buttons.forEach(b => {
+                b.disabled = true;
+            });
+
+            if (i === q.c) {
+
+                quizScore++;
+
+                btn.classList.add('correct');
+
+                $('feedback').textContent = 'BENAR! ' + q.e;
+
+                tone(740, .12);
+
+            } else {
+
+                btn.classList.add('wrong');
+
+                buttons[q.c].classList.add('correct');
+
+                $('feedback').textContent = 'Belum tepat. ' + q.e;
+
+                tone(210, .18, 'triangle');
+
+            }
+
+            $('qScore').textContent = 'SKOR: ' + quizScore;
+
+            $('progress').style.width =
+                ((qIndex + 1) / activeQuestions.length * 100) + '%';
+
+            setTimeout(() => {
+
+                qIndex++;
+
+                if (qIndex < activeQuestions.length) {
+                    renderQuestion();
+                } else {
+                    finishGame();
+                }
+
+            }, 1450);
+
+        }
+
+
+        // ===============================
+        // HASIL AKHIR
+        // ===============================
+
+        function finishGame() {
+
+            let practice = goals * 20;
+            let quiz = quizScore * 12;
+
+            let total = practice + quiz;
+
+            let grade =
+                total >= 170 ? 'A' :
+                    total >= 140 ? 'B' :
+                        total >= 100 ? 'C' : 'D';
+
+            $('finalScore').textContent = total;
+
+            $('rGoals').textContent = goals + '/5';
+
+            $('rQuiz').textContent = quizScore + '/5';
+
+            $('rGrade').textContent = grade;
+
+            showScreen('result');
+
+        }
+
+
+        // ===============================
+        // KONTROL KEYBOARD
+        // ===============================
+
+        document.addEventListener('keydown', e => {
+
+            if (!$('practice').classList.contains('active')) return;
+
+            if (e.key === 'ArrowLeft') selectAim(0);
+
+            if (e.key === 'ArrowUp') selectAim(1);
+
+            if (e.key === 'ArrowRight') selectAim(2);
+
+            if (e.code === 'Space') {
+
+                e.preventDefault();
+
+                kickBall();
+
+            }
+
+        });
+
+
+        // Gambar lapangan pertama kali
+        drawPitch();
+
+        animateScreen('home');
+
+        if (window.gsap && window.ScrollTrigger) {
+            gsap.registerPlugin(ScrollTrigger);
+
+            gsap.from('.topbar', {
+                y: -25,
+                opacity: 0,
+                duration: .7,
+                ease: 'power3.out'
+            });
+
+            gsap.to('.footer', {
+                opacity: 1,
+                scrollTrigger: {
+                    trigger: '.footer',
+                    start: 'top 95%',
+                    once: true
+                }
+            });
+        }
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js').catch(() => {});
+            });
+        }
+
+        let deferredInstallPrompt = null;
+        const installButton = $('installApp');
+
+        window.addEventListener('beforeinstallprompt', event => {
+            event.preventDefault();
+            deferredInstallPrompt = event;
+            installButton.classList.add('visible');
+        });
+
+        installButton.addEventListener('click', async () => {
+            if (!deferredInstallPrompt) {
+                alert(
+                    'Untuk memasang aplikasi: buka menu browser Android (⋮), ' +
+                    'lalu pilih "Tambahkan ke layar utama" atau "Pasang aplikasi".'
+                );
+                return;
+            }
+
+            deferredInstallPrompt.prompt();
+            await deferredInstallPrompt.userChoice;
+            deferredInstallPrompt = null;
+            installButton.classList.remove('visible');
+        });
+
+        window.addEventListener('appinstalled', () => {
+            deferredInstallPrompt = null;
+            installButton.classList.remove('visible');
+        });
+
+    </script>
+
+</body>
+
+</html>
